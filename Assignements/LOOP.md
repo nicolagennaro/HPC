@@ -162,4 +162,4 @@ if(p % 8 == 0){
 just at the beginning of the particles loop (the `p` one). 
 By doing this we improve a little bit the performances.
 
-![](../D3-hands-on/loop_optimization/loops.png)
+![](../D3-exercise/loop_optimization/loops.png)
