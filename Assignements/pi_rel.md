@@ -36,7 +36,7 @@ But when we increase the number of points things are better and the speedup keep
 as we add more processes. Nonetheless for 20 processes the execution is not even 10 times
 faster then the serial version, showing that communication overhead still plays a central role.
 
-! [] (../D1-hands-on/speedup.png)
+![](../D1-hands-on/speedup.png)
 
 In the weak scaling, instead, the size of the problem increases together with
 the number of processes, so that the final computational effort at the end is
@@ -49,4 +49,4 @@ problems the time seems to be constant but for the bigger ones the higher the nu
 the more the times are different and increase together with the number of processes.
 
 
-! [] (../D1-hands-on/weak.png)
+![](../D1-hands-on/weak.png)
