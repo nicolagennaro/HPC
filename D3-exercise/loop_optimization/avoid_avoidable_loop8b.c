@@ -47,13 +47,14 @@
 #define TCPU_TIME (clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &ts ), (double)ts.tv_sec +	\
 		   (double)ts.tv_nsec * 1e-9)
 
+#define DEFAULT_REPETITIONS 10
 
 int main(int argc, char **argv)
 {
   
   double           *parts;
   double           *Grid, Rmax;
-  int              Np, Ng, i, j, k, p;
+  int              Np, Ng, Iter, cc, i, j, k, p;
   
   
   // timing-related variables
@@ -62,7 +63,11 @@ int main(int argc, char **argv)
 
   Np = atoi( *(argv + 1) );
   Ng = atoi( *(argv + 2) );
-  
+
+  if( argc == 4 )
+    Iter = atoi( *(argv + 3) );
+  else
+    Iter = DEFAULT_REPETITIONS;  
 
   // allocate contiguous memory for particles coordinates
   posix_memalign((void**)&parts, 16, Np * 3 * sizeof(double));
@@ -102,7 +107,7 @@ int main(int argc, char **argv)
     // now let's imagine that we can store the particles' coordinates keeping x, y and z
     // contiguous by bunch, i.e. :
     // parts = { x1, x2, x3, x4, y1, y2, y3, y4, z1, z2, z3, z4, ...}
-    
+  for(cc = 0; cc < Iter; cc++){    
   tstart = TCPU_TIME;
 
   for(p = 0; p < Np3; p += 12 )
@@ -148,7 +153,7 @@ int main(int argc, char **argv)
       }
 	    
   ctime += TCPU_TIME - tstart;
-  
+  }
   printf("\t%g sec [%g]\n", ctime / Iter, dummy / Iter );
 
   free(jks);

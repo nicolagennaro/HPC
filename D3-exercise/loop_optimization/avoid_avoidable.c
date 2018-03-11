@@ -28,12 +28,12 @@ int main(int argc, char **argv)
   Ng = atoi( *(argv + 2) );
   
   if( argc == 4 )
-    Iter = atoi( *(argv + 2) );
+    Iter = atoi( *(argv + 3) );
   else
     Iter = DEFAULT_REPETITIONS;
 
   // allocate contiguous memory for particles coordinates
-  x    = (double*)calloc(Np * 4, sizeof(double));
+  x    = (double*)calloc(Np * 3, sizeof(double));
   y    = x + Np;
   z    = y + Np;
 
@@ -61,8 +61,7 @@ int main(int argc, char **argv)
   ctime = 0;
   double dummy = 0;
 
-  //for(cc = 0; cc < Iter; cc++)
-  //  {
+  for(cc = 0; cc < Iter; cc++){
   tstart = TCPU_TIME;
 
   for(p = 0; p < Np; p++)
@@ -78,9 +77,9 @@ int main(int argc, char **argv)
 	  }
   
   ctime += TCPU_TIME - tstart;
-   // }
+  }
   
-  printf("\t%g sec [%g]\n", ctime / Iter, dummy / Iter );
+  printf("\t%g sec\n", ctime / Iter );
 
 
   // ---------------------------------------------------
@@ -90,7 +89,7 @@ int main(int argc, char **argv)
   double Rmax2 = Rmax * Rmax;
   dummy = 0;
   ctime = 0;
-  
+  for(cc = 0; cc < Iter; cc++){
   tstart = TCPU_TIME;
 
   for(p = 0; p < Np; p++)
@@ -107,8 +106,8 @@ int main(int argc, char **argv)
 	  }
   
   ctime += TCPU_TIME - tstart;
-  
-  printf("\t%g sec [%g]\n", ctime / Iter, dummy / Iter );
+  }
+  printf("\t%g sec\n", ctime / Iter );
 
   
   // ---------------------------------------------------
@@ -117,7 +116,7 @@ int main(int argc, char **argv)
   
   dummy = 0;
   ctime = 0;
-
+for(cc = 0; cc < Iter; cc++){
   tstart = TCPU_TIME;
 
   for(p = 0; p < Np; p++)
@@ -137,8 +136,8 @@ int main(int argc, char **argv)
 	  }
   
   ctime += TCPU_TIME - tstart;
-  
-  printf("\t%g sec [%g]\n", ctime / Iter, dummy / Iter );
+}
+  printf("\t%g sec\n", ctime / Iter );
 
 
   // ---------------------------------------------------
@@ -149,7 +148,7 @@ int main(int argc, char **argv)
 
   dummy = 0;
   ctime = 0;
-
+for(cc = 0; cc < Iter; cc++){
   tstart = TCPU_TIME;
 
   for(p = 0; p < Np; p++)
@@ -169,8 +168,8 @@ int main(int argc, char **argv)
 	  }
   
   ctime += TCPU_TIME - tstart;
-  
-  printf("\t%g sec [%g]\n", ctime / Iter, dummy / Iter );
+ }
+ printf("\t%g sec\n", ctime / Iter );
 
   
   // ---------------------------------------------------
@@ -181,7 +180,7 @@ int main(int argc, char **argv)
 
   dummy = 0;
   ctime = 0;
- 
+ for(cc = 0; cc < Iter; cc++){
   for(p = 0; p < Np; p++)
     for(i = 0; i < Ng; i++)
       {
@@ -206,8 +205,8 @@ int main(int argc, char **argv)
       }
 	    
   ctime += TCPU_TIME - tstart;
-  
-  printf("\t%g sec [%g]\n", ctime / Iter, dummy / Iter );
+ }
+  printf("\t%g sec\n", ctime / Iter );
 
 
   // free(Grid);

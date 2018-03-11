@@ -47,13 +47,14 @@
 #define TCPU_TIME (clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &ts ), (double)ts.tv_sec +	\
 		   (double)ts.tv_nsec * 1e-9)
 
+#define DEFAULT_REPETITIONS 10
 
 int main(int argc, char **argv)
 {
   
   double           *parts;
   double           *Grid, Rmax;
-  int              Np, Ng, i, j, k, p;
+  int              Np, Ng, Iter, cc, i, j, k, p;
   
   
   // timing-related variables
@@ -62,7 +63,12 @@ int main(int argc, char **argv)
 
   Np = atoi( *(argv + 1) );
   Ng = atoi( *(argv + 2) );
-  
+
+  if( argc == 4 )
+    Iter = atoi( *(argv + 3) );
+  else
+    Iter = DEFAULT_REPETITIONS;
+      
   // allocate contiguous memory for particles coordinates
   parts = (double*)calloc(Np * 3, sizeof(double));
 
@@ -86,10 +92,13 @@ int main(int argc, char **argv)
   printf("LOOP 7 :: "); fflush(stdout);
   
   double dummy = 0;
+  ctime = 0;
+    
+
   double Rmax2 = Rmax * Rmax;
   double half_size = 0.5 / Ng;;
   double Ng_inv = (double)1.0 / Ng;
-  ctime = 0;
+
 
   double *jks = (double*)calloc(Ng, sizeof(double));
 
@@ -97,7 +106,8 @@ int main(int argc, char **argv)
     jks[i] = (double)i * Ng_inv + half_size;
     
   int Np3 = Np * 3;
-  
+ 
+for(cc = 0; cc < Iter; cc++){    
   tstart = TCPU_TIME;
 
   for(p = 0; p < Np3; p += 3 )
@@ -123,7 +133,8 @@ int main(int argc, char **argv)
       }
 	    
   ctime += TCPU_TIME - tstart;
-  
+
+  }
   printf("\t%g sec [%g]\n", ctime / Iter, dummy / Iter );
 
   free(jks);

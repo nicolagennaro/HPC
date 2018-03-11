@@ -45,12 +45,14 @@
 #define TCPU_TIME (clock_gettime( CLOCK_PROCESS_CPUTIME_ID, &ts ), (double)ts.tv_sec +	\
 		   (double)ts.tv_nsec * 1e-9)
 
+#define DEFAULT_REPETITIONS 10
+
 int main(int argc, char **argv)
 {
   
   double           *x, *y, *z, dist;
   double           *Grid, half_size, Rmax;
-  int              Np, Ng, i, j, k, p;
+  int              Np, Ng, Iter, cc, i, j, k, p;
   
   
   // timing-related variables
@@ -60,9 +62,13 @@ int main(int argc, char **argv)
   Np = atoi( *(argv + 1) );
   Ng = atoi( *(argv + 2) );
   
+    if( argc == 4 )
+    Iter = atoi( *(argv + 3) );
+  else
+    Iter = DEFAULT_REPETITIONS;
 
   // allocate contiguous memory for particles coordinates
-  x    = (double*)calloc(Np * 4, sizeof(double));
+  x    = (double*)calloc(Np * 3, sizeof(double));
   y    = x + Np;
   z    = y + Np;
 
@@ -95,7 +101,8 @@ int main(int argc, char **argv)
   double Rmax2 = Rmax*Rmax;
   dummy = 0;
   ctime = 0;
-
+  for(cc = 0; cc < Iter; cc++){
+  
   tstart = TCPU_TIME;
 
   for(p = 0; p < Np; p++)
@@ -115,7 +122,7 @@ int main(int argc, char **argv)
 	  }
   
   ctime += TCPU_TIME - tstart;
-  
+  }
   printf("\t%g sec [%g]\n", ctime / Iter, dummy / Iter );
 
   free(x);
