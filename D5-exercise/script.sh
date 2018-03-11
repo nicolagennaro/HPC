@@ -1,0 +1,45 @@
+#!/bin/bash
+
+filetime="time_trans"
+filecache="cache_trans"
+
+
+for files in $filetime[0-9]*.dat; do
+    if [ -e $files ]; then
+	rm $files
+	echo "$files REMOVED" 
+    else
+	echo "REMOVE:   " $files " not present"
+    fi
+done
+
+
+for files in $filecache[0-9]*.dat; do
+    if [ -e $files ]; then
+	rm $files
+    else
+	echo "REMOVE:   "$files " not present"
+    fi
+done
+
+
+gcc trans_blocks.c -o Btranspose -lm
+
+
+for matsize in 1024 2048 4096; do
+    for blocksize in 2 4 8 16 32 64 128 256 512 1024; do
+	printf "$blocksize\t" >> $filetime$matsize.dat
+        # cat $filename$matsize.dat
+	./Btranspose $matsize $blocksize >> $filetime$matsize.dat
+    done
+done
+
+
+for matsize in 1024 2048 4096; do
+    for blocksize in 2 4 8 16 32 64 128 256 512 1024; do
+	printf "$blocksize\t" >> $filecache$matsize.dat
+	sudo perf stat -e L1-dcache-load-misses \
+	     ./Btranspose $matsize $blocksize 2>&1 | \
+	     grep dcache | awk '{print $1}' >> $filecache$matsize.dat
+    done
+done
