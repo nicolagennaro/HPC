@@ -36,15 +36,15 @@ socket. To do this we will use again `numactl` with options `--cpunodebind` and
 specified CPU or memory.
 
 Using `numactl --cpunodebind 0 --membind 0` we obtain the output
-
-13602.4 +/- 4.3 MB/s
-
+```
+13602.4  +/- 4.3 MB/s
+```
 
 (values are the mean of three run) while with `numactl --cpunodebind 0 --membind 1` we get
-
-13929.0 +/- 13.2 MB/s
-
-As expected when the memory used is not the one attached to the processor the bandwidth
+```
+9756.6  +/- 7.9  MB/s
+```
+As expected, when the memory used is not the one attached to the processor, the bandwidth
 is lower.
 
 Now we will use the OpenMP version of stream to measure the bandwidth when many threads
