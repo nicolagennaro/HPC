@@ -1,0 +1,15 @@
+real 39.26
+user 39.27
+sys 0.00
+real 39.20
+user 39.22
+sys 0.00
+real 39.18
+user 39.20
+sys 0.00
+real 39.30
+user 39.33
+sys 0.00
+real 39.18
+user 39.21
+sys 0.00
