@@ -19,9 +19,9 @@ for(p = 0; p < Np; p++)
 
 ```
 
-We will improve this cycle one step by step, measuring each time his performance to better understand
+We will improve this cycle step by step, measuring each time his performance to better understand
 what corrections lead to the best improvements. The times reported in the figure at the bottom are means over 10
-loops. The numbers refere to the optimization step are the same used in the graph at the bottom.
+executions. The labels referring to the optimization steps are the same used in the graph at the bottom.
 
 
 1) First of all, we eliminate the sqrt() function from the code. This function is very computational intensive and
@@ -50,8 +50,8 @@ and rewrite the previous code as `dx = x[p] - (double)i * Ng_inv + half_size;` f
 
 4) Now we observe that the variable `dx` depends only on the `i` of the outer loop over the grid, and that
 also `dy` depends on the `j` of the second grid loop. This means that these values can be computed only once for all the 
-loops that are inside. So we calculate them and also their squares outside the loops.
-Also the sum of `dx` square and `dy` square can be computed only once outside the `k` loop. The code is now
+loops that are inside. So we calculate them, and their squares, outside the loops.
+Also the sum of `dx` square and `dy` square can be computed only once outside the innermost loop. The code is now
 
 ```
 for(p = 0; p < Np; p++)
@@ -83,8 +83,8 @@ The code runs slower than the previous version because now the CPU now cannot pe
 only one cycle as did before.
 
 
-6) Here we add the directive `register` directive to the most used variables, like `half_size, Ng_inv` and of course
-`dx, dy, dz` in the hope that this will the compiler to write a code where this variables stay in the CPU
+6) Here we add the `register` directive to the most used variables, like `half_size, Ng_inv` and of course
+`dx, dy, dz` in the hope that this will force the compiler to write a code where these variables stay in the CPU
 register as much as possible.
 
 
@@ -104,8 +104,8 @@ contiguous memory separately for the x, y and z coordinates, now we want all the
 to be close together since they are used in consecutive computations.
 
 
-7b) The order of the loops is reversed, in the sense that now we start from the last element on go on
-till 0. This is because checking if a value is zero requires less CPU instructions than a comparison with
+7b) The order of the loops is reversed, in the sense that now we start from the last element and go on
+untill 0. This is because checking if a value is zero requires less CPU instructions than a comparison with
 a non zero value. The benefits are minimal in this case.
 
 

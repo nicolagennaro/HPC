@@ -27,12 +27,12 @@ node   0   1
 
 tells us that we have 2 CPUs (here called nodes) with 10 cores each (called cpus) and
 that each CPU has its own main memory. The last matrix provides a rough measure of the
-distance between each CPU.
+communication distance between each CPU.
 
 In the first part we will measure the bandwidth from a CPU to the memory in two cases:
-when the memory is the one assigned to that CPU and when the memory is in the other
+when the memory is the one assigned to that CPU and when the memory is associated to the other
 socket. To do this we will use again `numactl` with options `--cpunodebind` and
-`--membind` that allow us to bind the execution of a program respectively to the
+`--membind` that allow us to bind the execution of a program to the
 specified CPU or memory.
 
 Using `numactl --cpunodebind 0 --membind 0` we obtain the output
